@@ -7,7 +7,7 @@ import (
 
 	"github.com/JestkiyProgger/ToDoList/internal/core/domain"
 	core_errors "github.com/JestkiyProgger/ToDoList/internal/core/errors"
-	"github.com/jackc/pgx/v5"
+	core_postgres_pool "github.com/JestkiyProgger/ToDoList/internal/core/repository/postgres/pool"
 )
 
 func (r *UsersRepository) PatchUser(ctx context.Context, id int, user domain.User) (domain.User, error) {
@@ -18,7 +18,7 @@ func (r *UsersRepository) PatchUser(ctx context.Context, id int, user domain.Use
 	UPDATE ToDoList.users
 	SET name=$1, phone_number=$2, version=version+1
 	WHERE id=$3 AND version=$4
-	RETURNING id, version, name, phone_number
+	RETURNING id, version, name, phone_number;
 	`
 
 	row := r.pool.QueryRow(ctx, query, user.Name, user.PhoneNumber, id, user.Version)
@@ -26,7 +26,7 @@ func (r *UsersRepository) PatchUser(ctx context.Context, id int, user domain.Use
 	var userModel UserModel
 	err := row.Scan(&userModel.ID, &userModel.Version, &userModel.Name, &userModel.PhoneNumber)
 	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
+		if errors.Is(err, core_postgres_pool.ErrNoRows) {
 			return domain.User{}, fmt.Errorf("user with id='%d' concurrently accessed: %w",
 				id, core_errors.ErrConflict)
 		}

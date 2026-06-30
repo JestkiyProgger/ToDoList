@@ -13,7 +13,7 @@ env-cleanup:
 	@read -p "Отчистить данные Postgres??? [y/n]: " ans; \
 	if [ "$$ans" = "y" ]; then \
 	  docker compose down todolist-postgres port-forwarder && \
-	  sudo rm -rf _out/pgdata && \
+	  sudo rm -rf ${PROJECT_ROOT}/_out/pgdata && \
 	  echo "Очистилось удачно!"; \
 	else \
 	  echo "Очистилось неудачно!"; \
@@ -50,7 +50,7 @@ todolist-run:
 	@export LOGGER_FOLDER=${PROJECT_ROOT}/_out/logs && \
 	export POSTGRES_HOST=localhost && \
 	go mod tidy && \
-	go run cmd/todolist/main.go
+	go run ${PROJECT_ROOT}/cmd/todolist/main.go
 
 # Убрать это
 chown:
