@@ -12,8 +12,8 @@ env-down:
 env-cleanup:
 	@read -p "Отчистить данные Postgres??? [y/n]: " ans; \
 	if [ "$$ans" = "y" ]; then \
-	  docker compose down todolist-postgres && \
-	  sudo rm -rf out/pgdata && \
+	  docker compose down todolist-postgres port-forwarder && \
+	  sudo rm -rf _out/pgdata && \
 	  echo "Очистилось удачно!"; \
 	else \
 	  echo "Очистилось неудачно!"; \
@@ -45,3 +45,13 @@ env-port-forward:
 
 env-port-close:
 	@docker compose down port-forwarder
+
+todolist-run:
+	@export LOGGER_FOLDER=${PROJECT_ROOT}/_out/logs && \
+	export POSTGRES_HOST=localhost && \
+	go mod tidy && \
+	go run cmd/todolist/main.go
+
+# Убрать это
+chown:
+	@sudo chown -R danila:danila /home/danila/GoProjects/ToDoList/_out/pgdata

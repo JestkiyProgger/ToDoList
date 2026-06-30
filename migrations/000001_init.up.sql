@@ -24,11 +24,7 @@ CREATE TABLE ToDoList.tasks (
         (completed=FALSE AND completed_ad IS NULL)
         OR
         (completed=TRUE AND completed_ad IS NOT NULL AND completed_ad >= create_at)
-    )
-);
+    ),
 
-CREATE TABLE ToDoList.users_tasks (
-    user_id INTEGER NOT NULL REFERENCES ToDoList.users(id) ON DELETE CASCADE,
-    task_id INTEGER NOT NULL REFERENCES ToDoList.tasks(id) ON DELETE CASCADE,
-    PRIMARY KEY (user_id, task_id)
-)
+    user_id INTEGER NOT NULL REFERENCES ToDoList.users(id)
+);
