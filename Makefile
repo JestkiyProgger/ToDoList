@@ -46,12 +46,17 @@ env-port-forward:
 env-port-close:
 	@docker compose down port-forwarder
 
+logs-cleanup:
+	@read -p "Отчистить данные Logger'а??? [y/n]: " ans; \
+	if [ "$$ans" = "y" ]; then \
+	  sudo rm -rf ${PROJECT_ROOT}/_out/logs && \
+	  echo "Очистилось удачно!"; \
+	else \
+	  echo "Очистилось неудачно!"; \
+	fi
+
 todolist-run:
 	@export LOGGER_FOLDER=${PROJECT_ROOT}/_out/logs && \
 	export POSTGRES_HOST=localhost && \
 	go mod tidy && \
 	go run ${PROJECT_ROOT}/cmd/todolist/main.go
-
-# Убрать это
-chown:
-	@sudo chown -R danila:danila /home/danila/GoProjects/ToDoList/_out/pgdata
