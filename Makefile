@@ -64,5 +64,8 @@ todolist-run:
 todolist-deploy:
 	@docker compose up -d --build todolist
 
+todolist-undeploy:
+	@docker compose down todolist
+
 ps:
 	@docker  compose ps
