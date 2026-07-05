@@ -1,0 +1,4 @@
+_out/
+pgdata/
+.git/
+*.log
