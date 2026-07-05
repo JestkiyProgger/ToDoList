@@ -60,3 +60,9 @@ todolist-run:
 	export POSTGRES_HOST=localhost && \
 	go mod tidy && \
 	go run ${PROJECT_ROOT}/cmd/todolist/main.go
+
+todolist-deploy:
+	@docker compose up -d --build todolist
+
+ps:
+	@docker  compose ps
