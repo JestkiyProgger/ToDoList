@@ -8,5 +8,6 @@ type StatisticsRepository struct {
 
 func NewStatisticsRepository(pool core_postgres_pool.Pool) *StatisticsRepository {
 	return &StatisticsRepository{
-		pool: pool}
+		pool: pool,
+	}
 }
