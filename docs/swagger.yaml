@@ -1,0 +1,623 @@
+basePath: /api/v1
+definitions:
+  github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse:
+    properties:
+      error:
+        example: full error text
+        type: string
+      message:
+        example: short human-readable message
+        type: string
+    type: object
+  internal_features_statistics_transport_http.GetStatisticsResponse:
+    properties:
+      task_completed:
+        example: 1
+        type: integer
+      task_completed_rate:
+        example: 50
+        type: number
+      task_created:
+        example: 2
+        type: integer
+      tasks_average_completion_time:
+        example: 1h30m
+        type: string
+    type: object
+  internal_features_tasks_transport_http.CreateTaskRequest:
+    properties:
+      description:
+        example: С помощью языка go
+        maxLength: 1000
+        minLength: 1
+        type: string
+      title:
+        example: Сделать задачу
+        maxLength: 100
+        minLength: 1
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    required:
+    - title
+    - user_id
+    type: object
+  internal_features_tasks_transport_http.CreateTaskResponse:
+    properties:
+      completed:
+        example: false
+        type: boolean
+      completed_at:
+        example: "null"
+        type: string
+      create_at:
+        example: "2026-01-02T10:25:00Z"
+        type: string
+      description:
+        example: С помощью языка go
+        type: string
+      id:
+        example: 1
+        type: integer
+      title:
+        example: Сделать задачу
+        type: string
+      user_id:
+        example: 1
+        type: integer
+      version:
+        example: 1
+        type: integer
+    type: object
+  internal_features_tasks_transport_http.GetTaskResponse:
+    properties:
+      completed:
+        example: false
+        type: boolean
+      completed_at:
+        example: "null"
+        type: string
+      create_at:
+        example: "2026-01-02T10:25:00Z"
+        type: string
+      description:
+        example: С помощью языка go
+        type: string
+      id:
+        example: 1
+        type: integer
+      title:
+        example: Сделать задачу
+        type: string
+      user_id:
+        example: 1
+        type: integer
+      version:
+        example: 1
+        type: integer
+    type: object
+  internal_features_tasks_transport_http.PatchTaskRequest:
+    type: object
+  internal_features_tasks_transport_http.PatchTaskResponse:
+    properties:
+      completed:
+        example: false
+        type: boolean
+      completed_at:
+        example: "null"
+        type: string
+      create_at:
+        example: "2026-01-02T10:25:00Z"
+        type: string
+      description:
+        example: С помощью языка go
+        type: string
+      id:
+        example: 1
+        type: integer
+      title:
+        example: Сделать задачу
+        type: string
+      user_id:
+        example: 1
+        type: integer
+      version:
+        example: 1
+        type: integer
+    type: object
+  internal_features_tasks_transport_http.TaskDTOResponse:
+    properties:
+      completed:
+        example: false
+        type: boolean
+      completed_at:
+        example: "null"
+        type: string
+      create_at:
+        example: "2026-01-02T10:25:00Z"
+        type: string
+      description:
+        example: С помощью языка go
+        type: string
+      id:
+        example: 1
+        type: integer
+      title:
+        example: Сделать задачу
+        type: string
+      user_id:
+        example: 1
+        type: integer
+      version:
+        example: 1
+        type: integer
+    type: object
+  internal_features_users_transport_http.CreateUserRequest:
+    properties:
+      name:
+        example: Ivan Ivanov
+        maxLength: 100
+        minLength: 3
+        type: string
+      phone_number:
+        example: "+79879879876"
+        maxLength: 15
+        minLength: 10
+        type: string
+    required:
+    - name
+    type: object
+  internal_features_users_transport_http.CreateUserResponse:
+    properties:
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Ivan Ivanov
+        type: string
+      phone_number:
+        example: "+79879879876"
+        type: string
+      version:
+        example: 1
+        type: integer
+    type: object
+  internal_features_users_transport_http.GetUserResponse:
+    properties:
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Ivan Ivanov
+        type: string
+      phone_number:
+        example: "+79879879876"
+        type: string
+      version:
+        example: 1
+        type: integer
+    type: object
+  internal_features_users_transport_http.PatchUserRequest:
+    properties:
+      name:
+        example: Григорий Евкрадов
+        type: string
+      phone_number:
+        example: "+79879879876"
+        type: string
+    type: object
+  internal_features_users_transport_http.PatchUserResponse:
+    properties:
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Ivan Ivanov
+        type: string
+      phone_number:
+        example: "+79879879876"
+        type: string
+      version:
+        example: 1
+        type: integer
+    type: object
+  internal_features_users_transport_http.UserDTOResponse:
+    properties:
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Ivan Ivanov
+        type: string
+      phone_number:
+        example: "+79879879876"
+        type: string
+      version:
+        example: 1
+        type: integer
+    type: object
+host: 127.0.0.1:5050
+info:
+  contact: {}
+  description: Todo application REST-API scheme
+  title: Golang Todo API
+  version: "1.0"
+paths:
+  /statistics:
+    get:
+      description: 'Получение: Количества созданных задач, количество сделанных задач,
+        процент выполненных задач, среднее время выполнения задачи'
+      parameters:
+      - description: Размер списка задач
+        in: query
+        name: from
+        type: string
+      - description: Отступ от начала списка задач
+        in: query
+        name: to
+        type: string
+      - description: Статистика по определенного пользователя
+        in: query
+        name: user_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешно полученная статистика
+          schema:
+            $ref: '#/definitions/internal_features_statistics_transport_http.GetStatisticsResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+      summary: Получение статистики
+      tags:
+      - statistics
+  /tasks:
+    get:
+      description: Получить список задач с опциональной пагинацией и/или фильтрацией
+        по id пользователя
+      parameters:
+      - description: Размер списка задач
+        in: query
+        name: limit
+        type: integer
+      - description: Отступ от начала списка задач
+        in: query
+        name: offset
+        type: integer
+      - description: Список задач определенного пользователя
+        in: query
+        name: user_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешно полученный пользователь
+          schema:
+            items:
+              $ref: '#/definitions/internal_features_tasks_transport_http.TaskDTOResponse'
+            type: array
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+      summary: Получить задачи
+      tags:
+      - tasks
+    post:
+      consumes:
+      - application/json
+      description: Создать новую задачу с конкретным пользователем
+      parameters:
+      - description: CreateTask тело запроса
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_features_tasks_transport_http.CreateTaskRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Успешно созданная задача
+          schema:
+            $ref: '#/definitions/internal_features_tasks_transport_http.CreateTaskResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+      summary: Создать задачу
+      tags:
+      - tasks
+  /tasks/{id}:
+    delete:
+      description: Удалить задачу в системе по ее ID
+      parameters:
+      - description: id удаляемой задачи
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: Успешно удаленная задача
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "404":
+          description: Task not found
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+      summary: Удалить задачу
+      tags:
+      - tasks
+    get:
+      description: Получить конкретную задачу по ее ID
+      parameters:
+      - description: id получаемой задачи
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешно полученная задача
+          schema:
+            $ref: '#/definitions/internal_features_tasks_transport_http.GetTaskResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "404":
+          description: Task not found
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+      summary: Получить задачу
+      tags:
+      - tasks
+    patch:
+      consumes:
+      - application/json
+      description: |-
+        Изменение конкретной задачи по ее id
+        ### Логика обновления полей:
+        1. **Поле не передано**: 'description' игнорируется, значение в БД не меняется
+        2. **Явно передано значение**: '"description" : "Переделать на язык Java"' - устанавливает новое описание, значение в БД меняется
+        3. **Передано значение null**: '"description" : null' - удаляет старое описание, значение в БД меняется
+        Ограничение: 'title' и 'completed' не могут быть выставлены как "null"
+      parameters:
+      - description: id задачи
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: PatchTask тело запроса
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_features_tasks_transport_http.PatchTaskRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешно измененная задача
+          schema:
+            $ref: '#/definitions/internal_features_tasks_transport_http.PatchTaskResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "404":
+          description: Task not found
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+      summary: Изменение задачи
+      tags:
+      - tasks
+  /users:
+    get:
+      description: Получить список пользователей с опциональной пагинацией
+      parameters:
+      - description: Размер списка с пользователями
+        in: query
+        name: limit
+        type: integer
+      - description: Отступ от начала списка с пользователями
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешно полученный пользователь
+          schema:
+            items:
+              $ref: '#/definitions/internal_features_users_transport_http.UserDTOResponse'
+            type: array
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+      summary: Получить пользователей
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Создать нового пользователя в системе
+      parameters:
+      - description: CreateUser тело запроса
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_features_users_transport_http.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Успешно созданный пользователь
+          schema:
+            $ref: '#/definitions/internal_features_users_transport_http.CreateUserResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+      summary: Создать пользователя
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      description: Удалить пользователя в системе по его ID
+      parameters:
+      - description: id удаляемого пользователя
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: Успешно удаленный пользователь
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+      summary: Удалить пользователя
+      tags:
+      - users
+    get:
+      description: Получить конкретного пользователя по его ID
+      parameters:
+      - description: id получаемого пользователя
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешно полученный пользователь
+          schema:
+            $ref: '#/definitions/internal_features_users_transport_http.GetUserResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+      summary: Получить пользователя
+      tags:
+      - users
+    patch:
+      consumes:
+      - application/json
+      description: |-
+        Изменение конкретного пользователя по его id
+        ### Логика обновления полей:
+        1. **Поле не передано**: 'phone_number' игнорируется, значение в БД не меняется
+        2. **Явно передано значение**: '"phone_number" : "+79879879876"' - устанавливает новый номер, значение в БД меняется
+        3. **Передано значение null**: '"phone_number" : null' - удаляет старый номер, значение в БД меняется
+        Ограничение: 'name' не может быть выставлен как "null"
+      parameters:
+      - description: id пользователя
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: PatchUser тело запроса
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_features_users_transport_http.PatchUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешно измененный пользователь
+          schema:
+            $ref: '#/definitions/internal_features_users_transport_http.PatchUserResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_JestkiyProgger_ToDoList_internal_core_transport_http_response.ErrorResponse'
+      summary: Изменение пользователя
+      tags:
+      - users
+swagger: "2.0"
