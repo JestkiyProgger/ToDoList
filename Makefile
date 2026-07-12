@@ -75,5 +75,11 @@ swagger-gen:
 		--parseInternal \
 		--parseDependency
 
+test:
+	@go test -cover ./...
+
+test_html:
+	@go test -coverprofile=coverage.out ./... && go tool cover -html=coverage.out
+
 ps:
 	@docker  compose ps

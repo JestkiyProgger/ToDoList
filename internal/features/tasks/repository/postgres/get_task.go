@@ -35,7 +35,7 @@ func (r *TasksRepository) GetTask(ctx context.Context, taskID int) (domain.Task,
 	)
 	if err != nil {
 		if errors.Is(err, core_postgres_pool.ErrNoRows) {
-			return domain.Task{}, fmt.Errorf("task with id='%s': %w", taskID, core_errors.ErrNotFound)
+			return domain.Task{}, fmt.Errorf("task with id='%d': %w", taskID, core_errors.ErrNotFound)
 		}
 
 		return domain.Task{}, fmt.Errorf("scan error: %w", err)
